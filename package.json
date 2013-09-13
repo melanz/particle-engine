@@ -1,0 +1,25 @@
+{
+  "name": "cs558hw1",
+  "version": "0.0.2",
+  "description": "An introduction to node.js and JavaScript using a simple particle simulator.",
+  "main": "mysimulator.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/melanz/CS558HW1.git"
+  },
+  "keywords": [
+    "particle",
+    "simulator"
+  ],
+  "author": "Daniel Melanz",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/melanz/CS558HW1/issues"
+  }
+}
