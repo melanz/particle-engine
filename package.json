@@ -1,6 +1,6 @@
 {
   "name": "cs558hw1",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An introduction to node.js and JavaScript using a simple particle simulator.",
   "main": "mysimulator.js",
   "directories": {

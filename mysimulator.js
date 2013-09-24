@@ -1,8 +1,8 @@
 module.exports = function(position, velocity, ground, dt) {
 
 	// allocate vectors for the next state
-	var nextPosition = new Array(position.length)
-	var nextVelocity = new Array(velocity.length)
+	var nextPosition
+	var nextVelocity
 	
 	// determine the normal of the ground
 	var xGround1 = -1;
@@ -15,11 +15,16 @@ module.exports = function(position, velocity, ground, dt) {
 	// load function to correct the state of the particle
 	var correctState = require("./stateCorrector.js");
 
-	// Compute next state here 
+	// Compute next state here
+    nextPosition = new Array();
+    nextVelocity = new Array();
 	for(var i=0; i<position.length; i++) {
-		// Compute what the next state would be if there was no collision
-		nextPosition[i] = [position[i][0] + dt*velocity[i][0],position[i][1] + dt*velocity[i][1]];
-		nextVelocity[i] = velocity[i];
+        var xPos = position[i][0]
+        xPos+=dt*velocity[i][0]
+        var yPos = position[i][1]
+        yPos+=dt*velocity[i][1]
+        nextPosition.push([xPos,yPos])
+        nextVelocity.push(velocity[i])
 		
 		// Determine if the point has exited the boundary at the next state
 		if(nextPosition[i][0] < -1) {

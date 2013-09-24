@@ -8,15 +8,16 @@ var resetButton = document.body.querySelector("#reset")
 var canvas = document.body.querySelector("#canvas")
 var context = canvas.getContext("2d")
 var interval
-var position = []
-var initialPosition = []//new Array()
-var velocity = []//new Array()
-var initialVelocity = []//new Array()
+var position = new Array()
+var initialPosition = new Array()
+var velocity = new Array()
+var initialVelocity = new Array()
+
+var tempPos
 
 function initialize() {
     timeStep = document.body.querySelector("#timeStep").value
     interval = setInterval(draw,1000*timeStep)
-    
     
     resetButton.addEventListener("click",reset)
     canvas.addEventListener("mousedown",addParticle,false);
@@ -24,7 +25,7 @@ function initialize() {
 }
 
 function draw() {
-    timeStep = document.body.querySelector("#timeStep").value
+    //timeStep = document.body.querySelector("#timeStep").value
     scale = document.body.querySelector("#scale").value
     canvas.width = scale*2;
     canvas.height = scale*2;
@@ -57,12 +58,14 @@ function convertPixelsToCartesian(point) {
 
 function drawPoint(position) {
     var pos = convertCartesianToPixels(position)
+    context.strokeStyle = "rgb(0, 0, 255)"
     context.beginPath();
-    context.arc(pos[0],pos[1],3,0,2*Math.PI)
+    context.arc(pos[0],pos[1],3*scale/200,0,2*Math.PI)
     context.stroke();
 }
 
 function drawLine(startCart, endCart) {
+    context.strokeStyle = "rgb(255, 0, 0)"
     var start = convertCartesianToPixels(startCart)
     var end = convertCartesianToPixels(endCart)
     context.moveTo(start[0],start[1])
@@ -95,27 +98,33 @@ function reset() {
     groundY = document.body.querySelector("#groundY").value
     console.log("Resetting (dt = "+timeStep+")")
     interval = setInterval(draw,1000*timeStep)
+    
+    position = initialPosition
+    velocity = initialVelocity
 }
 
 function addParticle(event) {
-    console.log("Point added at px("+event.pageX+", "+event.pageY+")")
+    //console.log("Point added at px("+event.pageX+", "+event.pageY+")")
     var point = [0,0];
     point = convertPixelsToCartesian([event.pageX-canvas.offsetLeft, event.pageY-canvas.offsetTop])
-    position.push(point)
-    console.log(position)
-    initialPosition.push(point)
+    //position.push(point)
+    //console.log(position)
+    //initialPosition.push(point)
     console.log("Point added at ("+point[0]+", "+point[1]+")")
     console.log(" ");
+    tempPos = point
 }
 
 function addVelocity(event) {
     var end = convertPixelsToCartesian([event.pageX-canvas.offsetLeft, event.pageY-canvas.offsetTop])
-    var start = initialPosition[initialPosition.length-1];
+    var start = tempPos;//initialPosition[initialPosition.length-1];
     drawLine(start,end)
     var vel = [0,0]
     vel[0] = end[0]-start[0];
     vel[1] = end[1]-start[1];
+    position.push(tempPos)
     velocity.push(vel)
+    initialPosition.push(tempPos)
     initialVelocity.push(vel)
     //console.log("Velocity added at ("+vel[0]+", "+vel[1]+")")
 }
